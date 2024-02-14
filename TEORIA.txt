@@ -1,0 +1,46 @@
+SQL (Structured Query Language o Lenguaje de Consultas Estructuradas), es un lenguaje de programación estandarizado, esto quiere decir que todos los demás gestores de bases de datos se basan en el lenguaje de SQL.
+
+SQL en pocas palabras es álgebra relacional.
+
+--- DIAGRAMA ER CHEN (MODELO ER CON NOTACION CHEN)
+
+- ENTIDAD: Es como un objeto, puede hacer referencia a cualquier cosa que se tenga en la vida real, se podría decir que una entidad es la tabla en donde se alamcenará la información del objeto. Ejemplo: Clientes, Productos, Órdenes de Compra, Proveedores
+La nomenclatura que se usa es llamada "Notación de Chen" y es una manera de representar las entidades y sus relaciones **ES REPRESENTADO CON UN CUADRADO.
+
+Las entidades cuentan con atributos, estos serían los atributos simples y compuestos.
+
+COMPOSICIÓN:
+- ATRIBUTOS SIMPLES: Los atributos simples tienen datos únicos, no están compuestos por nada más, por ejemplo el precio de una casa que cuesta 100,000 dls **ES REPRESENTADO CON UN CIRCULO.
+
+- ATRIBUTO COMPUESTO: Los atribuos compuestos tienen a su vez más atributos, por ejemplo "AMBIENTE" y dentro de este atributo existirán por ejemplo el comedor, la cocina, una habitación, etc. y a su vez definir los metros cuadrados de cada zona **ES REPRESENTADO CON UN CIRCULO.
+
+VALORES:
+- MONOVALUADO: Los atributos monovaluados solo tienen un valor **ES REPRESENTADO CON UN CIRCULO.
+
+- MULTIVALUADO: Los atributos multivaluados tienen múltiples valores almacenados **SON REPRESENTADOS CON DOBLE CIRCULO.
+
+ORIGEN:
+- ALMACENADOS: Son atributos que únicamente se almacenan por el usuario **ES REPRESENTADO CON UN CIRCULO.
+
+- DERIVADOS: Son atributos que se obtenien gracias al almacenamiento de otros, ejemplo: Si el usuario ya nos dió su fecha de nacimiento, no hace falta que le preguntemos su edad, nosotros ya podemos obtener esta información con su fecha de nacimiento **ES REPRESENTADO CON UN CIRCULO CON LINEA PUNTEADA.
+
+** EJEMPLO DE ESTO ANEXADO EN UNA IMAGEN DENTRO DE LA CARPETA TEORIA_IMG **
+
+- KEY: Son claves únicas para cada entidad, es decir es el id de cierto objeto para ubicarlo como único **ES REPRESENTADO CON UN SUBRAYADO
+
+A partir de ahora ya se abarco la base de la teoría de SQL, la siguiente teoría y ejercicios se encontrarán dentro de cada P, por lo que se procederá de manera concisa a explicar la instalación para su uso.
+Para empezar se necesita un gestor de base de datos ya que recordemos que SQL es un lenguaje para interactuar con una base de datos, pero se necesita determinal cuál será utilizada.
+Para este caso se utilizará SQLite, debido a que para el curso es buena opción, es el más común y se utiliza en MACOS, LINUX, WINDOWS, ANDROID, ETC. a su vez es compatible con muchos lenguajes de programación como PYTHON, JAVA, C++, RUBY, JAVASCRIPT, etc., a su vez NO SE NECESITA SERVIDOR para ejecutar SQLite, está integrado directamente a la aplicación (es decir que no hay que instalar nada por aparte), también si se quiere trabajar con la consola de SQLite es más poderosa que Excel y es más simple que PANDAS (es decir que es muy poderosa para el análisis de datos).
+
+Para su instalación:
+- En google se busca sqlite 3 (entramos a sqlite.org)
+- Ya dentro se selecciona download y se agarra la precompiled binaries for windows, agarrando la que diga tools
+- Se descarga un archivo .rar, el cual extraeremos, copiaremos las 3 aplicaciones que vienen adentro, creamos una carpeta en nuestro disco local que tenga windows llamada "sqlite3" y dentro pegamos las aplicaciones copiadas
+- Posterior a esto accedemos a esta carpeta (sqlite3) desde la terminal, de esta manera ya accedemos a la carpeta y podemos ejecutar las aplicaciones; sin embargo existe otra manera de poder hacer esto
+- Se copia la ruta de la biblioteca, es decir C:\sqlite3 y para poder acceder a esta ruta desde cualquier carpeta, se escribe en windows "variables" y nos aparecerá un resultado que diga "editar las variables del entorno del sistema"; posterior a esto lo abrimos y seleccionamos "variables de entorno", una vez dentro hacemos doble click en donde dice path dentro de las variables, posterior seleccionamos nuevo, pegamos la ruta y aceptamos todo.
+- A partir de ahora ya podemos acceder a estos archivos desde cualquier carpeta
+
+- Ahora se instalará el browser, para esto dentro del navegador se busca sqlite3 browser y abrimos la que diga sqlitebrowser.org
+-Nos dirigimos a download, y nos descargamos el standard installer y lo instalamos, pudiendo así abrir el browser llamado "DB Browser for SQLite"
+
+De esta manera ya tenemos todo listo para trabajar los proyectos desde Windows, por lo que se procederá a trabajar desde el P

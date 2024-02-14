@@ -1,0 +1,101 @@
+Normalmente para crear una base de datos se usa la consulta:
+CREATE DATABASE "USUARIOS"
+
+Pero en sqlite nosotros le daremos en new, database, ponemos el nombre por ejemplo usuarios.db y lo guardamos.
+
+Seguido de esto se debe crear una tabla, para este caso se creará una llamada users
+(Si no se tuviera al gestor, el código sería: CREATE TABLE "users" {
+
+}; )
+
+** EN SQL A LAS COLUMNAS SE LES LLAMA CAMPOS Y LAS FILAS SON LLAMADAS REGISTROS **
+
+El valor del campo es el contenido de la intersección entre un registro y un campo
+
+Los valores a almacenar en la tabla son:
+- INTEGER: Entero (NUMEROS)
+- TEXT: TEXTO (NOMBRES, CORREO ELECTRÓNICO, ETC)
+- BLOB: ALMACENAMIENTO DE DATOS BINARIOS (IMAGENES, VIDEOS, ETC.)
+- REAL: MATEMÁTICAS (SON COMO LOS VALORES FLOAT, ES DECIR LOS VALORES CON COMAS, PORCENTAJES), A DIFERENCIA DE NUMERIC ESTE ALMACENA MENOS INFORMACIÓN PERO ES MÁS RÁPIDO
+- NUMERIC: MATEMÁTICAS PRECISAS (COMO AL TRABAJAR CON PI, NUMEROS ENORMES), A DIFERENCIA DE REAL, ESTE ALMACENA MUCHO MAYOR INFORMACIÓN PERO ES MÁS LENTO
+
+Existe el valor DEFAULT para setear algo como por defecto
+
+A continuación se tiene que comenzar a indicar lo que tendrá nuestra tabla, gracias al browser es mucho más sencillo, pero a nivel código esto sería:
+
+CREATE TABLE "usuarios" (
+	"nombre"	TEXT,
+	"apellido"	TEXT,
+	"edad"	INTEGER
+);
+
+Una vez acabado esto ya podemos crear la tabla dando en ok
+
+Posterior a esto ya nos vamos a los primros datos que debemos insertar seleccionando donde dice Execute SQL
+
+QUERY = CONSULTA, UNA VEZ ACLARADO ESTO, SE PUEDE DEFINIR QUE LA PRIMER CONSULTA QUE SE PUEDE HACER EN SQL es:
+(* Indica todo)
+
+SELECT * FROM usuarios (Esto indica que seleccione todo de la tabla usuarios)
+
+Ejecutamos esto, podemos observar que hasta aquí nuestra consulta ha sido exitosa ya que nos regresa 0 datos, y ya con esto para poder manipular y trabajar con los datos, es momento de insertar datos de la siguiente manera:
+
+INSERT INTO usuarios (nombre, apellido, edad) 
+VALUES ('JAKE', 'EKAJ', 23)
+
+Al ejecutar esta consulta se guarda en la tabla.
+
+**ES IMPORTANTE MENCIONAR QUE EN SQL TODA OPERACIÓN ES VISTA COMO UNA CONSULTA (QUERY), YA SEA EL VIASUALIZAR LOS DATOS, MODIFICARLOS, ELIMINARLOS, TODO ES VISTO COMO UNA CONSULTA EN SQL
+
+UNA VEZ SE TENGA ESTO, AHORA SI YA NOS SALEN LAS CONSULTAS SELECT * FROM ususarios
+
+Si nosotros queremos agregar múltiples datos en una consulta, lo que debemos hacer es:
+
+INSERT INTO usuarios (nombre, apellido, edad)
+VALUES ('Jake2', 'Ekaj2', 23),
+		('Jake3', 'Ekaj3', 24),
+		('Jake4', 'Ekaj4', 25)
+
+Si se quiere realizar una consulta para buscar un dato en particular la consulta de esta misma debería ser:
+
+SELECT nombre, apellido FROM usuarios
+
+y de esta manera se obtiene una consulta de tipo busqueda respecto a los campos nombre y apellido
+
+IDENTIFICADORES:
+SE TIENEN 2 TIPOS DE INDENTIFICADORES
+- Primary Keys: Es un campo para identificar un registro entero
+- Foreign Keys:
+
+La manera de tener un id dentro de una tabla sería:
+CREATE TABLE "usuarios" (
+    "id" INTEGER,
+    "nombre" TEXT
+);
+
+Lo ideal sería que nuestra tabla tenga identificadores, pero para agregarlos, debemos eleiminar todos los registros que ya se hicieron en nuestra base de datos, por lo que para eliminarlos se debe:
+
+DELETE FROM usuarios
+
+Una vez que ya se hayan eliminado los registros, ahora se podrá crear la tabla con identificadores de la siguiente manera:
+
+CREATE TABLE "usuarios" (
+	"id"	INTEGER,
+	"nombre"	TEXT,
+	"apellido"	TEXT,
+	"edad"	INTEGER,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+** Como se puede observar, se indica que el id es un Primary Key y aparte tiene Autoincremento
+
+
+
+
+
+Por lo que en resumidas cuentas para repasar los conecptos se tiene que:
+- CONSULTA: SON LAS QUERYS, RECORDEMOS QUE TODAS LAS CONSULTAS CONLLEVAN A LO QUE ES LA BUSQUEDA, MODIFICAR, AGREGAR O ELIMINAR DATOS DE NUESTRA BASE DE DATOS
+- TABLA: ES LA TABLA QUE CONTENDRÁ LA BASE DE DATOS
+- REGISTRO: ES LA FILA DE LA TABLA
+- CAMPO: ES LA COLUMNA DE LA TABLA
+- VALOR DE CAMPO: ES EL VALOR DE LA INTERSECCIÓN DEL REGISTRO Y EL CAMPO
+- IDENTIFICADORES: 
