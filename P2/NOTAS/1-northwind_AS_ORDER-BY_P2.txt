@@ -1,0 +1,63 @@
+En esta misma carpeta P2, se puede visualizar una imagen png, esta imagen contiene un diagrama de base de datos, haciendo ver el uso de una FK.
+
+Así mismo, aunque ahorita ya hemos visto cómo es que se utiliza una base de datos propia, el problema de esto es que trabajamos con una base de datos pobre que tiene pocos datos, es por esto que utilizaremos una base de datos Northwind, esto con la intención de poder aumentar nuestra experiencia utilizando bases de datos mucho más completas.
+
+Buscar en google: wikiversity/wiki/database_examples/northwind/sqlite
+
+o de lo contrario acceder directamente al enlace: https://en.wikiversity.org/wiki/Database_Examples/Northwind/SQLite
+
+Para así obtener el código para la base de datos que se utilizará, de cualquier manera en esta misma carpeta se dejará el código dentro del archivo base_de_datos.txt
+
+Una vez copiado el código, creamos una base de datos llamada Northwind.db y la guardamos; posteior a esto pegamos el código que copiamos y ejecutamos las consultas. Una vez finalizado esto ya tenemos nuestra DB Northwind.
+Recordemos que toda base de datos cuenta con su porpio diagrama, por lo que en la misma página se puede obtener el diagrama de la base de datos Northwind, de cualquier manera dentro de esta misma carpeta, se anexará una imagen del diagrama.
+
+**COMO DATO CURIOSO, NOSOTROS AL MOMENTO DE ALMACENAR UNA FOTO, MAS QUE ALMACENARLA, NOSOTROS GUARDAMOS LA URL DE LA FOTO**
+Como se puede observar, actualmente se tiene una base de datos con un montón de tablas, campos y registros; teniendo esto en cuenta la manipulación de tantos datos puede llegar a ser una tarea compleja, es por esto que por ejemplo, supongamos que nosotros queremos trabajar con un campo, pues nosotros podemos trabajar con este campo a nuestro gusto pudiendo modificar el nombre de manera temporal sin que este nombre sea modificado en nuestra base de datos original; esto se consigue con:
+
+SELECT LastName AS apellido FROM Employees
+
+De esta manera nosotros indicamos que queremos cambiar el campo LastName por apellido de la tabla Employees, pero sin que el nombre original (LastName) se modifique en la tabla; o por el contrario si queremos cambiar el nombre de 2 cosas, podemos definir como 
+
+SELECT LastName AS apellido, FirstName AS nombre FROM Employees
+
+Normalmente el AS no se suele utilizar salvo algunas excepciones, por ejemplo suponiendo que se tiene una tabla muy extraña con un nombre no muy descriptivo/intuitivo, podemos utilizar el AS para facilitar su interpretación.
+
+Como algo rápido, también se pueden utilizar operaciones dentro de nuestras consultas, por ejemplo:
+
+SELECT Price, Price*2 AS precio_doble FROM Products
+
+De esta manera indicamos que primero aparezca nuestro campo Price de la tabla Products, después que aparezca nuestro campo Price pero con los registros multiplicándose *2 y después de esto, configuramos el nombre de la tabla price como precio_doble, pero únicamente a la tabla que tiene una multiplicación *2.
+
+Ahora si nosotros queremos ordenar nuestros registros de otra manera en vez de la predeterminada (ordenando del registro más reciente al más antiguo), podemos:
+
+SELECT * FROM Products
+ORDER BY price ASC
+
+De esta manera nosotros podemos ordenar nuestros registros de la tabla Productos en forma ascendente (del menos valor al mayor) dependiendo de nuestro campo Price.
+** DATO: SE PUEDE USAR SIN EL ASC, PERO POR BUENAS PRACTICAS ES RECOMENDABLE QUE SE DEJE EL ASC **
+
+Si nosotros quisiéramos ordenar los datos, pero esta vez de manera descendente (del más alto al más chico), siguiendo la misma lógica sería:
+
+SELECT * FROM Products
+ORDER BY prices DESC
+
+Siguiendo la misma lógica también podemos ordenar de forma alfabética en ascendente (a - z) o descendente (z - a):
+
+SELECT * FROM Products
+ORDER BY ProductName ASC
+
+El orden jerárquico al momento de ordenar es:
+- NULL (menor valor)
+- NUMEROS (aumenta el valor)
+- CARACTERES ESPECIALES (aumenta el valor)
+- LETRAS (El mayor valor)
+
+** SUPONIENDO QUE NOSOTROS QUEREMOS FORZAR ALGO, Y QUE LA JERARQUÍA NO SEA RESPETADA (Por ejemplo si quisiéramos que nuestros NULLS a fuerzas aparezcan al final) se realiza:
+
+SELECT * FROM Products
+ORDER BY ProductName ASC NULLS LAST
+
+De esta manera nosotros podemos colocar a nuestros NULL al final, lo mismo si queremos que aparezcan al principio:
+
+SELECT * FROM Products
+ORDER BY ProductName ASC NULLS FIRST

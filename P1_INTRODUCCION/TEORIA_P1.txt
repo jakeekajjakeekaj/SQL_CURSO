@@ -64,8 +64,8 @@ y de esta manera se obtiene una consulta de tipo busqueda respecto a los campos 
 
 IDENTIFICADORES:
 SE TIENEN 2 TIPOS DE INDENTIFICADORES
-- Primary Keys: Es un campo para identificar un registro entero
-- Foreign Keys:
+- Primary Keys: Es un campo para identificar un registro entero, el valor numérico no se puede repetir ya que es una clave única.
+- Foreign Keys: Hace referencia al id de otra tabla para así mantener relacionada a la tabla; a su vez las claves foráneas si pueden repetir su valor ya que pueden tener varias veces referenciado al mismo id.
 
 La manera de tener un id dentro de una tabla sería:
 CREATE TABLE "usuarios" (
@@ -88,7 +88,11 @@ CREATE TABLE "usuarios" (
 );
 ** Como se puede observar, se indica que el id es un Primary Key y aparte tiene Autoincremento
 
+Asi mismo, si notoros queremos mostrar 2 tablas al mismo tiempo, en vez de colocar SELECT * FROM usuarios, y posterior hacer lo mismo para turnos_medicos; se tiene que colocar una coma, esto pasa ya que si se colocan por aparte, se tomaría como que se reescribe la tabla y ya no se mostraría la primera ya que se borró para escribir la segunda, pero si seguimos la siguiente sintaxis esto cambia y se coloca un al lado de la otra:
 
+SELECT * FROM usuarios, turnos_medicos;
+
+Sin embargo si manehamos esto de esta manera, lo único que se obtendría serían problemas ya que las tablas se sobre pondrían, se multiplicarían los resultados visibles, en pocas palabras se haría un relajo, para poder solucionar este tipo de temas se utilizarían joins y otro tipo de cosas que por el momento aún no se ha visto dentro del curso, pero si se verá en los siguientes P
 
 
 

@@ -1,0 +1,54 @@
+Suponiendo que nosotros queramos sacar todos los registros duplicados, por ejemplo cuando existen varios NULL:
+
+SELECT DISTINCT ProductName FROM Products
+
+De esta manera estamos indicando que queremos que nos muestre solo los distintivos (los que no se repiten), del campo ProductName de la tabla Products
+
+Ahora, dentro de SQL existen las condiciones (como todo buen lenguaje de programación), y estas sirven para realizar filtros donde podemos encontrar algo específico o incluso la manera correcta de eliminar cosas, ya que si nosotros por alguna razón escribimos la consulta DELETE FROM usuarios, nosotros estariamos borrando todo, en vez de únicamente borrar lo que nos interesaría borrar.
+Para realizar este tipo de filtros (condiciones), se utiliza where, esto es:
+
+SELECT ProductName FROM Products
+WHERE ProductID = 14
+
+De esta manera nosotros primero estamos indicando que se seleccione el campo ProductName de la tabla Products, y posterior a esto indicamos una condición diciendo que se muestre el ProductName pero solo DONDE el ProductID tiene un valor de 14
+
+Si queremos todo el registro sería:
+
+SELECT * FROM Products
+WHERE ProductID = 14
+
+Ahora si queremos buscarlo por nombre sería:
+
+SELECT * FROM Products
+WHERE ProductName = "Tofu"
+
+También se puede realizar una condición para mostrar productos con un valor menor a cierta cifra, por ejemplo:
+
+SELECT * FROM Products
+WHERE Price <= 40
+
+Se aplican las mismas condiciones mara el mayor, menor, mayor e igual, menor e igual
+
+Si nosotros queremos eliminar algo en especifico, por ejemplo en el caso en donde se llegan a repetir registros o algo por el estilo, lo que se haría sería:
+
+DELETE FROM turnos_medicos
+WHERE id_turno = 3
+
+Esto lo que hace es primero se indica la tabla sobre la que se va a trabajar (turnos_medicos), después se selecciona el campo id_turno con valor de 3 y se elimina
+
+Si nosotros queremos ACTUALIZAR algún dato, lo que se hace es:
+
+UPDATE turnos_medicos
+SET horario = "10:30"
+WHERE id_turno = 2
+
+Esto lo que indica es que se va a actualizar nuestra tabla turnos_medicos, colocando así el valor de 10:30 dentro de nuestro campo horario, solo en nuestro campo id_turno con valor de 2.
+
+Si queremos actualizar varios datos, lo que se haría sería:
+
+UPDATE turnos_medicos
+SET horario = "10:30",
+motivo = "Dolor de Muelas"
+WHERE id_turno = 2;
+
+De esta manera se indica que se actuaizará la tabla turnos_medicos, y dentro de los campos horario y motivo se actualizarán los datos escritos, pero solo cuando nuestro campo id_turno tenga un valor de 2.

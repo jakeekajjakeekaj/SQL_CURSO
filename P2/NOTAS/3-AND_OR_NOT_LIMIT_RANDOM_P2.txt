@@ -1,0 +1,74 @@
+Si nosotros quisiéramos definir un rango, ya estariamos utilizando lo que son los operadores lógicos, para este caso por ejemplo:
+
+SELECT * FROM Customers
+WHERE CustomerID >= 50 AND CustomerID < 55
+
+De esta manera estamos indicando que nos selecciones de nuestra tabla Customers, a nuestros CustomerID que tengan un valor mayor o igual a 50 y menor a 55.
+
+También se pueden utilizar OR, por ejemplo
+
+SELECT * FROM Employees
+WHERE FirstName = "Nancy" OR FirstName = "Anne"
+
+De esta manera nosotros estamos indicando que nos muestre dentro de nuestra tabla Employees todos los registros que cumplan dentro del campo FirstName un contenido de Nancy o Anne.
+
+Si nosotros quisiéramos trabajar con ambos valores esto SI es posible, en la forma:
+
+SELECT * FROM Products
+WHERE (Price < 20 OR CategoryID = 6) AND SupplierID = 7;
+
+De esta manera lo que indicamos es que se seleccione a nuestra tabla Productos, y dentro de la misma si nuestro precio es menor a 20 o nuestra CategoryID tiene un valor de 6, los resultados se van a mostrar, es decir todo lo que tenga un precio menor a 6 o que tenga cateogria 6, se va a mostrar, pero después del paréntesis tenemos otra sentencia, esto indicaría que aparte de ese filtro ya realizado, al haber un AND solo lo que tenga un valor de 7 dentro de nuestro SupplierID se mostrará; al final en pocas palabras se podría decir que aplicamos 3 filtros, 1. Para obtener todo lo que sea menor a un Price de 20 2. Para aparte de obtener lo del valor del 1, hacer excepciones para todo lo que tenga una categoria con valor de 6 3. Para ya obteniendo nuestros 2 primeros filtros, mostrar únicamente los productos con un SupplierID con valor de 7.
+
+Ahora bien, también se puede usar el NOT, esto sería en la forma:
+
+SELECT * FORM Products
+WHERE NOT Price > 40
+
+De esta manera nosotros indicamos que dentro de nuestra tabla Products, sin el NOT a nosotros nos mostraría todos los valores menores a 40, sin embargo con el NOT presente, ahora nos devolverá todos los valores que no son menores a 40. (típico not de los operadores lógicos)
+
+Como ejemplo práctico del uso del NOT, supongamos que nosotros queremos enviarle un mensaje a todos los usuarios, menos a ESTADOS_UNIDOS, pues para este caso sin el NOT un caso sería SELECT * FROM Customers WHERE Country = "Mexico" OR Country = "España" OR Country = "Chile" OR Country = "Argentina" etc.
+Para evitar una sentencia sumamente larga ya que tendríamos que nombrar a todos los paises que tenemos registrados, lo que hariamos sería sencillamente declarar:
+
+SELECT * FROM Customers
+WHERE NOT Country = "Estados_Unidos"
+
+De esta sencilla manera ya sacamos a ESTADOS_UNIDOS de la lista, pero seguimos dejando a todos los demás paises sin ningún problema.
+
+Ahora bien si aplicamos el mismo ejemplo pero ahora queremos sacar a más paises, utilizariamos:
+
+SELECT * FROM Customers
+WHERE NOT Country = "Estados_Unidos"
+AND
+NOT Country = "Francia"
+
+De esta manera nosotros indicamos que sacamos a Estados_Unidos y Francia de nuestra lista
+** ES IMPOTANCIA MENCIONAR QUE EL OR NO FUNCIONA AQUÍ, YA QUE SI COLOCAMOS EL OR, CUANDO SE ESTÉ EVALUANDO AL DE Estados_Unidos Francia si puede pasar
+
+COMO OTRO EJEMPLO ES Supongamos que los clientes de un rango a otro rango ganan un premio, pero los clientes pertenecientes a cierto país no lo pueden ganar debido a que el premio no llega hasta allá, entonces la consulta a realizarse sería:
+
+SELECT * FROM Customers
+WHERE CustomerID >= 50
+AND CustomerID < 55
+AND NOT Country = "Alemania"
+
+De esta manra nosotros indicamos que de la tabla Customers obtenga los registros en donde los campos CustomerID tengan un valor mayor o igual a 50 y menos a 55, pero apate de esto al ya tener esta lista, no se seleccionará a Alemania.
+
+Sin embargo aplicando a este mismo ejemplo, si de los 5 ganadores hay alguien proveniente de Alemania, ya solo tendriamos 4 ganadores en vez de 5, entonces para realizar un filtro más práctico y así siempre tener a nuestros 5 ganadores nosotros podemos hacerlo:
+
+SELECT * FROM Customers
+WHERE CustomerID >= 50
+AND NOT Country = "Alemania"
+LIMIT 5
+
+De esta manera nosotros dentro de la tabla Customers, obtenemos todos los registros en donde nuestro campo CustomerID tenga un valor de mayor o igual a 50, pero quitando a todos los registros en donde dentro del campo Country tenga el valor de Alemania; sin embargo hasta aquí no acaba, porque haciendo esto ya tenemos a todos los mayores o iguales a 50 excluyendo a Alemania, pero podrían ser miles, pues lo que se haría en este caso sería limitar los registros con LIMIT a 5, para que de esta manera ahora si se obtengan únicamente los primeros 5 registros ya que serán los únicos que nos entregará nuestro consulta al LIMITAR nuestros resultados a 5.
+
+Ahora, si nosotros quisiéramos utilizar LIMIT, pero que los resultados no siempre sean los mismos, sino que sean diferentes, pero limitados a una cantidad de registros, lo que se hace es:
+
+SELECT * FROM Products
+WHERE NOT CategoryID = 6
+AND NOT SupplierID = 1
+AND Price <= 30
+ORDER BY RANDOM()
+LIMIT 3
+
+De esta manera nosotros estamos indicando que se seleccione a la tabla Products, de esta tabla exluimos a los registros donde el valor del campo CategoryID sea 6 y 1, a su vez seleccionamos únicamente a las cosas en donde el campo Price sea menor o igual a 30; una vez obtenido esto volvemos aleatorios a nuestros registros y obtenemos únicamente los primeros 3; así cada que se ejecute esta consulta tendremos siempre 3 valores aleatorios cumpliendo todas nuestras demás condiciones.
