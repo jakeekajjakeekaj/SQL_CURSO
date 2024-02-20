@@ -1,0 +1,74 @@
+GROUP BY y HAVING
+
+El GROUP BY sirve para realizar agrupaciones sobre los registros, es decir:
+
+SELECT SupplierID, ROUND(AVG(Price)) FROM products
+GROUP BY SupplierID.
+
+De esta manera obtenemos primero el promedio redondeado del campo Price junto con el campo SupplierID de la tabla products, posterior a esto se agrupo por SupplierID, es decir que se obtiene el promedio redondeado de cada supplierID.
+
+De igual manera hay que tener cuidado porque en las agrupaciones lógicamente también podemos tener valores NULL, la manera de poder solucionar este problema sería:
+
+SELECT CategoryID, ROUND(AVG(Price)) as promedio FROM products
+WHERE CategoryID IS NOT NULL
+GROUP BY CategoryID
+
+De esta manera en nuestra agrupación ya no aparecerá el NULL, pero no solo eso, nosotros tenemos que poner nuestra doncición WHERE antes de comenzar con las agrupaciones, de los contrario nos marcaría un error.
+
+AHORA TENEMOS UN PROBLEMA, si nosotros quisiéramos crear un grupo en donde el promedio sea menor de 40 por ejemplo, nosotros excribiriamos
+
+SELECT SupplierID, ROUND(AVG(Price)) as promedio FROM products
+WHERE promedio < 40
+GROUP BY SupplierID
+
+Sin embargo con esto en mente lo que nos saldría sería un error, la lógica no es mala, pero no se puede realizar de esta manera ya que el WHERE no trabaja con AGRUPACIONES, para este caso se debría utilizar HAVING, ya que este si trabaja con AGRUPACIONES, es decir:
+
+SELECT SupplierID, ROUND(AVG(Price)) as promedio FROM products
+GROUP BY SuplierID
+HAVING promedio > 40
+
+y de esta manera ya nos saldría, asi mismo al trabajar con promedio, al ser igual una función de agrupación, también deberiamos trabajar con having ya que como ya se mencionó, el WHERE no soporta funciones de agrupación.
+
+Otro ejemplo para que quede claro es por ejemplo:
+
+SELECT ProductID, SUM(Quantity) as Total FROM OrderDetails
+GROUP BY ProductID
+ORDER BY Total
+
+De esta manera primero se obtiene el valor del ProductID con la suma de todas las cantidades, después de esto se agrupa por ProductID, es decir que aparecerá el total de articulos por cada producto, finalizando en un ordenamiento por el Total de productos en forma ascendente.
+
+Ahora si quisieramos hacer el filtro al ejemplo de arriba, recordemos que al estar utilizando agrupaciones, ya no es posible usar el WHERE, por lo tanto debemos utilizar HAVING de la forma:
+
+SELECT ProductID, SUM(Quantity) as Total FROM OrderDetails
+GROUP BY ProductID
+HAVING total > 50
+ORDER BY Total
+
+De esta manera se consigue lo mismo, es decir la cantidad de articulos que tiene cada producto, pero esta vez tomando en cunta únicamente a los que son mayores a 50.
+
+Tomando en cuenta el mismo ejemplo de arriba, si nosotros solo quisiéramos tener el producto con el mayor número de articulos, lo que se haría sería:
+
+SELECT ProductID, SUM(Quantity) as Total FROM OrderDetails
+GROUP BY ProductID
+ORDER BY Total DESC
+LIMIT 1
+
+De esta manera se obtiene lo mismo, sin embargo al indicar que el orden sea en DESCENDENTE, primero se empezará por el de mayor valor, y al LIMITAR los resultados a 1, únicamente nos aparecerá 1 resultado, siendo gracias al orden en DESCENDENTE el que tiene mayor valor.
+
+Es impotante mencionar que una manera que se podría intentar para obtener el que tenga mayor valor sería:
+
+SELECT ProductID, SUM(Quantity) as Total FROM OrderDetails
+GROUP BY ProductID
+HAVING MAX(Total)
+ORDER BY Total DESC
+
+y tendría cierta lógica, ya que de esta manera obtendríamos el valor MAXIMO de la SUMATORIA, sin emabrgo esto no se puede realizar, no se puede juntar lo que es una función de agregación dentro de la agrupación; la única manera es con SUBCONSULTAS, pero eso se verá más adelante.
+
+EN POCAS PALABRAS SE PUEDE DECIR QUE EL ORDEN A SEGUIR ES:
+
+SELECCIONAR: SELECT... FROM...
+FILTRAR: WHERE...
+AGRUPAMOS: GROUP BY...
+FILTRAR GRUPOS: HAVING...
+ORDENAR: ORDER BY...
+LIMITAR RESULTADOS: LIMIT...

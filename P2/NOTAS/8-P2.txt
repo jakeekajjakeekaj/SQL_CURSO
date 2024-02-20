@@ -1,0 +1,56 @@
+SUBCONSULTAS
+
+Una subconsulta si lo deslgosamos en su propio significado, nosotros al decir sub, significa que es algo que se encuentra dentro de algo, es decir que para este caso tendriamos una consulta dentro de otra consulta.
+Las subconsultas deben estar conformadas por SELECT, estas no deberían de modificar la DB, únicamente deberían de obtener datos.
+
+Un ejemplo de subconsulta es:
+
+SELECT ProductID,
+        Quantity,
+        (SELECT ProductName FROM products)
+FROM OrderDetails
+
+De esta manera como se puede observar, los SELECT seleccionan campos, por lo que se indica que habrán 3 campos, el ProductID, el Quantity (AMBOS DE LA TRABLA OrderDetails), pero el 3er campo será el campo de otra tabla, en este caso será el campo ProductName de la tabla products.
+Cabe mencionar que por lo mismo de ser campos, nosotros no podemos seleccionar varias cosas dentro de nuestra subconsulta, ya que nosotros desde la consulta principal determinamos cuántos campos habrán, por lo que en la subconsulta no podemos determinar más campos, en dado caso de que se quiera hacer esto lo que se haría sería:
+
+SELECT ProductID,
+        Quantity,
+        (SELECT ProductName FROM products),
+        (SELECT CategoryID FROM products),
+FROM OrderDetails
+
+De esta manera se consigue obtener 2 campos de otra tabla.
+
+Sin embargo existe un problema, cuando se tienen múltiples registros, el valor de la subconsulta siempre nos dará el primer resultado, es decir que ignorará a todos los demás registros para colocar únicamente al primero; para evitar esto y que los resultados vayan enlazados, lo que se tiene que hacer es:
+
+SELECT ProductID,
+        Quantity,
+        (SELECT ProductName FROM products WHERE OrderDetails.productID = ProductID)
+FROM OrderDetails
+
+De esta manera para empezar se tienen 3 campos, el campo ProductID, Quantity (ambos pertenecientes a la tablar OrderDetails), y el 3er campo sería una cubsonculta, la cuál idncia que selecciones el ProductName de la tabla products, dónde de la tabla OrderDetails, dentro del campo ProductID, coincida con el campo ProductID de la tabla de nuestra subconsulta (products). De esta manera ya podemos enlazar cada resultado correpondiente.
+
+Si quisiéramos devolver 2 campos de la tabla products, sería:
+
+SELECT ProductID,
+        Quantity,
+        (SELECT ProductName FROM products WHERE OrderDetails.productID = ProductID) as Nombre,
+        (SELECT Price FROM products WHERE OrderDetails.productID = ProductID) as Precio
+FROM OrderDetails
+
+De esta manera ya obtenemos 2 campos de otra tabla gracias a las subconsultas y aparte nos encargamos de renombrar a los campos.
+
+Por ejemplo, en uno de los casos pasados teniamos un problema al querer nombrar 2 sumatorias dentro de la consulta, pues a continuación se verá ese ejemplo resuelto:
+
+SELECT ProductID, SUM (Quantity) as total_vendido,
+        (SELECT Price FROM Products WHERE ProductID = OD.ProductID) as Price,
+        round((SUM(Quantity) * (SELECT Price FROM Products WHERE ProductID = OD.ProductID))) as Total_Recaudado
+FROM [OrderDetails] OD
+GROUP BY ProductID
+
+Aquí se pueden observar 2 subconsultas, pero primero vamos por pasos, para empezar se obtiene el ProductID y la suma de Quantity de la tabla OrderDetails (esta tabla se renombró como OD, eso indica los corchetes ya que se puede poner OrderDetails AS ó [OrderDetails], es lo mismo, la recomendación para separar campos de tablas es que para los campos se use AS y para las tablas se usen los corchetes.).
+Después se realiza la primer subconsulta, esta indica que se seleccionará el campo PRICE de la tabla Products en donde el ProductID sea igual al ProductID de la tabla OD (OrderDetails) y a su vez la renombramos como price.
+Después obtenemos la SUMA de nuestro campo Cuantity y a su vez la multiplicamos por la subconsulta que indica que se seleccione el Price de nuestra tabla Products, en donde el productID sea igual al ProductID de nuestra tabla OD (OrderDetails) y la renombramos como Total_Recaudado, esto indica que la suma de los articulos de cada producto, multiplicado por el precio de dicho prducto, nos daría el valor total de los productos junto con cada unidad.
+Por último esto lo agrupamos por el ProductID.
+
+El problema de las subconsultas es que consumen muchos recursos, es por esto que existe otra cosa que podemos utilizar pero que será más adelante.

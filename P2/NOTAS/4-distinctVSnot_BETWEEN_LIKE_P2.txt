@@ -1,0 +1,62 @@
+Distinct vs not
+
+Para este caso se procederá a hablar acerca de DISTINCT, y su diferencia con NOT ya que se puede llegar a confundir sus usos:
+
+Si nosotros tenemos:
+
+SELECT * FROM Customers WHERE NOT Country = "USA"
+
+Devuelve como resultado todos los campos Country de la tabla Customers con un valor diferente a USA
+
+Sin embargo, si nosotros utilizamos:
+
+SELECT * FROM Customers WHERE Country != "USA"
+
+Con esto se devuelve lo mismo, sin embargo por esto mismo es que surge la duda de que en realidad not y distinct son iguales, pero no.
+Para empezar NOT, así como OR y AND, es un operador lógico, mientras que distinct es de comparación; esto quiere decir que los opradores de comparación por ejemplo, trabajan con valores y convierten la respuesta en booleana (true o false), mientras que los operadores lógicos, trabajan directamente con valores booleanos (true o false) y la respuesta la dan igual con valores booleanos.
+
+BETWEEN, si notros quiséramos por ejemplo realizar un rango, sería:
+
+SELECT * FROM Productos WHERE Price > 20 AND Price < 40
+
+De esta manera se puede colocar un rango, sin embargo otra manera y mejor es:
+
+SELECT * FROM Products WHERE Price BETWEEN 20 AND 40
+
+De esta manra le estamos diciendo que muiestre de la tabla Products, todos los valores donde Price se encuentre con un rango de 20 - 40.
+
+LIKE, es parecido a un filtro de igual manera, por ejemplo:
+
+SELECT * FROM Employees WHERE LastName LIKE "Fuller"
+
+Esto devolvería el resultado donde en la tabla Employees dentro del campo LastName se tenga el valor Fuller.
+Es decir que se comporta como el operando =, sin embargo la diferencia entre estos es que con el LIKE (dependiendo del gestor), se tienen diferentes comodines, en este caso al utilizar el sqlite3, nosotros contamos con 2 comodines, estos serían:
+
+- SELECT * FROM Employees WHERE LastName Like "%uller"
+
+Este lo que indica es que no importa lo que exista antes de la palabra, solo se tiene que cumplir lo que viene después, es decir que tomando en cuenta que en el caso de arriba se buscó a fuller, en este caso también nos daría ese mismo resultado ya que estaría buscando uller, y al no importar lo que hay antes, seguiría siendo fuller al final.
+
+Funciona igual si se hace al revés, es decir:
+
+SELECT * FROM Employees WHERE LastName Like "full%"
+
+Aquí también daría resultador fuller, ya que mientras que se cumpla lo primero, no importa lo que venga después.
+
+El caso es el mismo si se tiene:
+
+SELECT * FROM Employees WHERE LastName Like "%ull%"
+
+El siguiente comidín es:
+
+- SELECT * FROM Employees WHERE LastName LIKE "Full__"
+
+Esto indica que de la tabla Employees del campo LastName será true solo donde se cumplan las iniciales Full, seguido de 2 caracteres más, es decir Fuller por ejemplo; por lo que como se puede ver, con los guines bajos se indica la cantidad de caracteres que deben haber, ya sea antes o después. Por ejemplo si fuera "Full___" al ser 3 caracteres ya no nos saldría el resultado, ya que para fuller solo se ocuparían 2 caracteres.
+
+También se puede combinar con los demás comodines, por ejemplo si colocamos
+
+SELECT * FROM Emloyees WHERE LastName LIKE "_ul_%"
+
+Aquí se cumple fuller, porque le estamos indicando que debe contener un caracter cualquiera antes de la u (f), seguido de una u y una l (ful), seguido de un caracter cualquiera (full), seguido de la cantidad que sea, osea fuller.
+
+En pocas palabras CON BETWEEN HACEMOS UNA BUSQUEDA POR RANGO.
+y con LIKE HACEMOS UNA BUSQUEDA POR PATRONES.

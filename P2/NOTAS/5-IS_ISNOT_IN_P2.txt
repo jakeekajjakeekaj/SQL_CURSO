@@ -1,0 +1,30 @@
+IS, La manra de utilizar IS sería:
+
+SELECT * FROM Products
+WHERE ProductName IS NULL
+ORDER BY ProductName ASC
+
+De esta manera de indica que de la tabla Products, se tomarán del campo ProductName todos los valores NULL, con un orden ascendente.
+
+De igual manera también se puede trabajar con el IS NOT, por ejemplo:
+
+SELECT * FROM Products
+WHERE ProductName IS NOT NULL
+ORDER BY ProductName ASC
+
+De esta manera se devolverán todos los valores que no sean nulos dentro del campo ProductName.
+
+IN, es un operador lógico, y funciona como una especie de abreviatura para el operador OR, es decir supongamos que:
+
+SELECT * FROM Products
+WHERE SupplierID = 3
+OR SupplierID = 4
+OR SupplierID = 5
+OR SupplierID = 6
+
+Aquí indicamos que seleccione de la tabla Products a todos los registros donde en el campo SupplierID se cumpla el valor de 3, 4, 5 o 6. Sin embargo si tuvieramos muchos numeros, o muchos valores que se quisieran filtrar, esto sería una tarea laboriosa, por lo tanto con el operador IN, se puede hacer:
+
+SELECT * FROM Products
+WHERE SupplierID IN (3, 4, 5, 6)
+
+*** IN NO ES LA MEJOR OPCIÓN PARA CUANDO SE TRATA DE TABLAS RELACIONALES, PARA ESTO EXISTE OPTRA OPCIÓN QUE SE VERÁ MÁS ADELANTE ***
