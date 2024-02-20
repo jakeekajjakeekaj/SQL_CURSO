@@ -1,0 +1,117 @@
+En la sección 9, se vió un ejercicio, que es para filtrar los valores menores al promedio, sin embargo el código final resulta no tan eficiente y aparte más complicado de leer, es por esto que los JOINS a pesar de utilizar más código, acaban siendo más eficientes y legibles debido a que igual usan índices; es decir que es como si fuera una única consulta, pero esta contiene índices, provocando que los motores de bases de datos gracias a que tienen esta funcionalidad incluida, permite que todo sea mucho más rápido.
+** EN POCAS PALABRAS UNA DE LAS GRANDES CLAVES PARA OPTIMIZAR UN CÓDIGO SQL ES UTILIZANDO JOINS **
+
+Existen muchos tipos de JOINS, sin embargo los más comunes en los cuales se pueden clasificar serían:
+- INNER JOIN (SON LOS MÁS COMUNES)
+- LEFT JOIN
+- RIGHT JOIN
+- FULL JOIN
+- CROSS JOIN
+
+Existen otros tipos, pero se podría decir que estos son los más utilizados.
+
+Para empezar iniciemos con INNER JOIN:
+
+Existen 2 maneras de llamar a un INNER JOIN, la implícita:
+
+SELECT * FROM Employees e, Orders o
+WHERE e.EmployeeID = o.EmployeeID
+
+En donde con esto ya obtenemos nuestro resultado en forma cartesiana gracias a lo que viene después del WHERE.
+
+El CROSS JOIN obtiene el resultado con todas las posibles combinaciones, es decir si tenemos en una tabla1 a0, a1 y en una tabla2 tenemos b0, b1; al utilizar el CROSS JOIN nosotros obtendriamos a0 b0, a0 b1, a1 b0, a1 b1
+
+Al dejar estos 2 casos en claro, viendo el código si notros dejamos:
+
+SELECT * FROM Employees e, Order o
+
+Aquí estaríamos utilizando un CROSS JOIN, ya que estamos obteniendo todos los resultados de estas 2 tablas, sin embargo se acaban multiplicando para así quedar en forma cartesiana; sin embargo si nosotros ahora si dejamos el código como antes, es decir:
+
+SELECT * FROM Employees e, Orders o
+WHERE e.EmployeeID = o.EmployeeID
+
+Estamos haciendo uso del INNER JOIN (implícito).
+
+Sin embargo la manera correcta de hacer un INNER JOIN es:
+
+SELECT * FROM [Employees] e
+INNER JOIN [Orders] o ON e.EmployeeID = o.EmployeeID
+
+De esta manera es la explícita, y aparte es la correcta, en donde indicamos que se unirá la tabla que se indica y haciendo uso del ON estamos declarando la condición que se debe cumplir desntro de nuestro INNER JOIN.
+
+Hasta este punto probablemente no se pueda notar mucho la ventaja del uso de los JOINS, y esto es debido a que en lo DB que se tiene ahorita todo se encuentra cuadrado y bien hecho, sin embargo vamos a crear una tabla para demostrar un mejor uso de los JOINS
+
+CREATE TABLE "Rewards" (
+    "RewardID" INTEGER,
+    "EmployeeID" INTEGER,
+    "Reward" INTEGER,
+    "Month" TEXT,
+    PRIMARY KEY("RewardID" AUTOINCREMENT)
+)
+
+Una vez creada la tabla, como se puede ver se tiene una primary key autoincrementable llamada RewardID, y el valor de "Reward" estará recibiendo una recompensa monetaria dirigida hacia cada empleado, solo que algunos recibirán recomensas por su buen trabajo y otros no.
+
+Ahora comencemos con el ingreso de datos, en donde se tendrán 6 empleados, donde solo 5 recibirán recompensas y en un mes ninguno recibirá recompensas. El llenado será:
+
+INSERT INTO Rewards (EmployeeID, Reward, Month) VALUES
+(2, 200, "January"),
+(2, 180, "February"),
+(5, 250, "March"),
+(1, 280, "April"),
+(8, 160, "May"),
+(null, null, "June")
+
+Listo, ya tenemos los datos almacenados en la DB que recién acabamos de crear, ahora lo que se hará es:
+
+SELECT * FROM [Employees] e
+INNER JOIN [Rewards] r ON e.EmployeeID = r.EmployeeID
+
+De esta manera solo se muestra los campos en los que coindice la condición, es decir tenemos muchos más campos debido a que se tienen muchos más empleados, pero únicamente los campos coincidentes con EmployeeID serán mostrados, incluso no se muestran a los null.
+
+Para que se entienda en pocas palabras, se puede obtener el mismo resultado con las subconsultas, pero por ejemplo si fuera una gran cantidad de registros, con las subconsultas lo que se hace es que se traen todos los registros y después se filtran, provocando tener que trabajar con una enorme cantidad de datos por lo tanto utilizando mayores recursos, mientras que de esta manera se trabaja únicamente con las filas que coinciden y es por esto que trabjar con JOINS es mucho más eficiente. ** UN USO DEL INDICE ES DURANTE LA SENTENCIA e.EmployeeID = r.EmployeeID
+
+Para el uso de LEFT JOIN, nadamás es cosa de reemplazar el INNER por LEFT, es decir:
+
+SELECT * FROM [Employees] e
+LEFT JOIN [Rewards] r ON e.EmployeeID = r.EmployeeID
+
+Esto lo que hace es devolver más empleados, aunque en Reward y Month se tenga un valor de NULL, y esto es debido a que se devuelven todos los registros de la tabla Empleados.
+
+Esta misma lógica aplica para el RIGHT JOIN, **SIN EMBARGO, RIGHT JOIN NO ES SOPORTADO CON SQLITE, POR LO QUE SIMPLEMENTE SE SIGUE USANDO EL LEFT JOIN Y SOLO SE INVIERTE EL ORDEN DE LAS TABLAS** es decir:
+
+-- Simulando un RIGHT JOIN invirtiendo las tablas 'Rewarsa' y 'Employees'
+SELECT * FROM [Rewards] r
+LEFT JOIN [Employees] e ON e.EmployeeID = r.EmployeeID
+
+De esta manera conseguimos simular un RIGHT JOIN en donde no se aceptan RIGHT JOIN, de igual manera es recomendable dejar un comentario indicando esta situación para que así los demás programadores entiendan lo que se está haciendo.
+
+Para finalizar nos falta lo que es un FULL JOIN, este lo que indica es que nos devuelve todo, sin embargo no nos lo devuelve como un producto cartesiano cruzado como lo hace el CROSS JOIN.
+En pocas palabras nosotros al escribir:
+
+SELECT * FROM [Employees] e
+LEFT JOIN [Rewards] r ON e.EmployeeID = r.EmployeeID
+
+UNION
+
+-- Simulando un RIGHT JOIN
+SELECT * FROM [Rewards] r
+LEFT JOIN [Employees] e ON e.EmployeeID = r.EmployeeID
+
+*** IMAGEN DE LOS TIPOS DE JOINS ANEXADA DENTRO DE LA CARPETA IMG_NOTAS/tiposJOINS.png ***
+
+nos devuelve todos nuestros Empleados y Rewards, y esto es gracias a que con la sentencia UNION se activa lo que sería el FULL JOIN, sin embargo existen ciertas variaciones del mismo, es decir, con solo el UNION nosotros juntamos lo perteneciente al LEFT JOIN con el RIGHT JOIN y quitamos los resultados repetidos; si nosotros tenemos:
+
+SELECT * FROM [Employees] e
+LEFT JOIN [Rewards] r ON e.EmployeeID = r.EmployeeID
+
+UNION ALL
+
+-- Simulando un RIGHT JOIN
+SELECT * FROM [Rewards] r
+LEFT JOIN [Employees] e ON e.EmployeeID = r.EmployeeID
+
+Gracias a ese UNION ALL, ahora se mostrarán todos los resultados, sin importar que el resultado se encuentre repetido.
+
+*** IMAGEN DE LA DIFERENCIA ENTRE UNION ALL Y UNION DENTRO DE LA CARPETA IMG_NOTAS/UNIONSvsUNIONALL.png ***
+
+Por lo que para hacer un FULL JOIN se debe acudir al UNION para que no se muestren los resultados duplicados.

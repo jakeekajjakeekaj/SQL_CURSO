@@ -1,0 +1,43 @@
+Antes de comenzar con los Joins que es la alternativa a las subconsultas para evitar un uso excesivo de recursos, se realizará un ejercicio de subconsultas.
+
+SELECT FirstName, LastName,
+(
+	SELECT SUM(od.Quantity) FROM [Orders] o, [OrderDetails] od
+	WHERE o.EmployeeID = e.EmployeeID AND od.orderID = o.orderID
+) AS unidades_totales
+FROM [Employees] e
+
+De esta manera ya hemos podido relacionar 3 tablas, lo que se hizo fue visualizar la cantidad de ventas que ha realizado cada empleado; sin embargo ahora viene otro problema:
+
+SELECT FirstName, LastName,
+(
+	SELECT SUM(od.Quantity) FROM [Orders] o, [OrderDetails] od
+	WHERE o.EmployeeID = e.EmployeeID AND od.orderID = o.orderID
+) AS unidades_totales
+FROM [Employees] e
+WHERE unidades_totales > 1000
+
+Aquí es lo mismo que el ejercicio de arriba, pero se puede visualizar que se filtran los resultados mayores a mil, y todo va bien, sin embargo observemos el siguiente ejercicio:
+
+SELECT FirstName, LastName,
+(
+	SELECT SUM(od.Quantity) FROM [Orders] o, [OrderDetails] od
+	WHERE o.EmployeeID = e.EmployeeID AND od.orderID = o.orderID
+) AS unidades_totales
+FROM [Employees] e
+WHERE unidades_totales > avg(unidades_totales)
+
+Para este caso AHORA SI MARCA UN ERROR, la manera correcta de hacerlo sería a través de otra subconsulta:
+
+SELECT FirstName, LastName,
+(
+	SELECT SUM(od.Quantity) FROM [Orders] o, [OrderDetails] od
+	WHERE o.EmployeeID = e.EmployeeID AND od.orderID = o.orderID
+) AS unidades_totales
+FROM [Employees] e
+WHERE unidades_totales > (SELECT AVG(unidades_totales2) FROM (
+	SELECT(SELECT SUM(od.Quantity) FROM [orders] o, [OrderDetails] od
+	WHERE o.EmployeeID = e2.EmployeeID AND od.orderID = o.orderID) as unidades_totales2 FROM [Employees] e2
+	GROUP BY e2.EmployeeID
+))
+
