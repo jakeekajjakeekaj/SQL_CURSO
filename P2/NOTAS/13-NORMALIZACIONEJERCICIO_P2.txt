@@ -1,0 +1,45 @@
+--- EJEMPLO 1 CON ANALISIS EN TABLA NORMALIZADA ---
+Supongamos que nosotros tenemos una tabla Clientes con los siguintes campos (entre paréntesis habrá un ejemplo de su contenido):
+
+TABLA Clientes:
+ClienteID (1) | Nombre (Homero) | Direccion (Av Hola 123) | Telefono (555-555) | Correo electronico (homero@outlook.com) | Ciudad (Springfield) | Estado (Florida)
+
+Para normalizar la tabla se identifica la Primary Key, la cual sería: ClienteID.
+Después se identificn las dependencias funcionales, pero en este caso todos los atributos dependen completamente de la Primary Key, por lo que no existen dependencias funcionales; para este caso ya se está cumpliendo con la 1NF.
+
+Se observa que debido a que cada atributo depende completamente de la Primary Key, se cumple entonces con la 2NF.
+
+Se observa que no hay dependencias transitivas entre los atributos, por lo que se define que también se cumple con la 3NF.
+
+Por lo que se dice que la DB ya está normalizada.
+
+
+--- EJEMPLO 2 CON TABLA NO NORMALIZADA ---
+
+Supongamos que tenemos una tabla de ventas con los siguientes atributos (cada valor se encontrará dentro de un paréntesis):
+
+TABLA Ventas
+VentaID (1) | Fecha (21-03) | ClienteID (1) | Nombre del cliente (Juan) | Direccion del cliente (Hola 123) | Ciudad del cliente (Hola city) | Estado del cliente (Estado Holarius) | ProductoID (1) | Nombre del producto (Vaso) | Precio del producto (120) | Cantidad (2)
+
+Para la normalización lo que se debe hacer es:
+
+1. Identificar las Primary Keys: VentaID
+2. Identificar las dependencias funcionales: ClienteID (contiene: Nombre del cliente | Direccion del cliente | Ciudad del cliente | Estado del cliente)
+ProductoID (contiene: Nombre del producto | Precio del producto)
+Por lo que se define que existen DEPENDENCIAS FUNCINALES PARCIALES EN LA TABLA. 
+
+PARA ESTE CASO SE CUMPLE CON 1NF ya que cada atributo contiene un solo valor.
+
+Comencemos con la 2NF, la cual consistiría en dividir la tabla principal:
+
+TABLA Ventas:
+
+VentaID (1) | Fecha (21-03) | ClienteID (1) | ProductoID (1) | Nombre del producto (Vaso) | Precio del producto (120) | Cantidad (2)
+
+TABLA Clientes:
+
+ClienteID (1) | Nombre del cliente (Juan) | Direccion del cliente (Hola 123) | Ciudad del cliente (Hola city) | Estado del cliente (Estado Holarius)
+
+De esta manera se consigue la 2NF.
+
+Solo falta normalizar a la 3NF, pero en este caso NO HAY DEPENDENCIAS TRANSTIVIAS ENTRE LOS ATRIBUTOS EN NINGUNA E LAS 2 TABLAS, POR LO QUE LA DB YA SE ENCUENTRA NORMALIZADA.

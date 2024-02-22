@@ -1,0 +1,56 @@
+NORMALIZACIÓN
+
+La normalización es un proceso para eliminar anomalías en los datos, hacer que la base de datos sea más eficiente, hacer consultas más efectivas y aumentar su escalabilidad.
+Esta se divide en 5 niveles, y estos son llamados forma normal, es decir 1er forma normal, 2da forma normal, y así hasta la 5ta forma normal.
+
+- Primer Forma Normal (1NF (First Normal Form)): Consiste en garantizar que cada campo contenga un único valor atómico, es decir que los valores de una columna no tienen que ser conjuntos o estructuras de datos complejas.
+Por Ejemplo: Una tabla de empleados debería tener un campo para el Nombre, otro para el Apellido y otro para el npumero de teléfono, en cambio si colocamos en un solo campo toda la información de los empleados se estaría incumpliendo con la primer forma normalizada, es decir sería incorrecto colocar Juan, Pérez, 555-555-555 en un solo campo, estos deberían dividirse en diferentes campos.
+
+- Segunda Forma Normal (2NF): Cada atributo que no sea un key, debe depender completamente de la Primary Key de su tabla.
+Por ejemplo: Supongamos que nosotros tenemos los siguientes campos
+
+PedidoID | ClienteID | Fecha del pedido | ProductoID | Nombre del producto | Precio del producto | Cantidad del producto
+
+De esta manera nosotros ya estariamos incumpliendo la 2NF, la forma correcta sería tener 2 tablas:
+
+TABLA 1
+PedidoID | ClienteID | Fecha del pedido | ProductoID | Cantidad del producto
+
+TABLA 2
+ProductoID | Nombre del producto | Precio del producto
+
+Esto es debido a que como se muestra, el nombre del producto por ejemplo no depende del PedidoID, tampoco el Precio del producto, por lo que es mejor crear otra tabla donde se tenga el ProductID, se maneje una base de datos relacional y así poder tener a los datos dependiendo directamente del primary key de su respectiva tabla.
+
+- Tercer Forma Normal (3NF): Cada atributo debe depender directamente de la primary key y no de otros atributos, es decir:
+Si nosotros tenemos una tabla
+
+Nombre | Codigo_Postal | Ciudad | Estado
+
+Estaría mal, ya que esta información se estaría repitiendo a cada rato, para esto lo que se hace es:
+
+TABLA 1:
+Nombre | id_Ubicacion
+
+TABLA 2:
+Ciudad | Estado | Codigo_Postal
+
+De esta manera la infroamción se almacena, no hace falta que se esté repitiendo y así queda constante.
+
+- Cuarta Forma Normal (4NF): Establece que cada tabla debe tener una primary key compuesta, la cual consta e multiples columnas en vez de una sola.
+Ejemplo:
+
+Nombre | Categoria | Subcateogria
+
+Con esto nos encontramos rompiendo la 4NF, ya que por ejemplo cada categoria puede tener más subcategorias, lo que se tendría que hacer sería:
+
+TABLA 1:
+ID_Principal | Nombre_Principal
+
+TABLA 2:
+ID_Principal | Nombre_Subcategoria
+
+De esta manera la tabla de Productos, contiene solo la información del producto, mientras que la tabla de subcategorías contine la información de las sub cateogirías con la coresondiente categoría.
+
+- Quinta Forma Normal (5NF): Se asegura que no haya dependencias de unión entre los atributos, es decir que si un atributo depende de que se unan atributos de varias tablas, tiene que sr movido a otra tabla.
+
+*** Generalmente crear una base de datos que llegue hasta la 3er forma normal está bien, ya cuando se trata de bases de datos muy grandes, es bueno llegar hasta la quinta forma normal. ***

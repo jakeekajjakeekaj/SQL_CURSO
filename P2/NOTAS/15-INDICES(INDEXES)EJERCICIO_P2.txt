@@ -1,0 +1,23 @@
+Ejemplo:
+
+Si nosotros tenemos:
+
+SELECT * FROM OrderDetails od
+JOIN Orders o
+WHERE OrderDate > "1996-07-04"
+AND od.Quantity > 10
+
+Esta operación tarda 37ms en ejecutarse, pero esto al ser más grande y repetirse demasiadas veces podría repercutir en un problema aún más grande, por lo que al identificar los campos que más se repiten, lo que nosotros podemos hacer es:
+
+CREATE INDEX idx_orderdetails_quantity ON OrderDetails (Quantity);
+Create INDEX idx_orders_orderdate ON Orders (OrderDate)
+
+Para este caso se agarró como índice a los más utilizados, así como el nombre que se da es idx (indicando que es un índice), orderdetails (indicando la tabla), quantity (indicando el campo).
+Si nosotros ejecutamos esto el tiempo sería de 25ms, esto indica que si hubo una mejora en el performance del código.
+
+** ES IMPORTANTE MENCIONAR QUE JUSTAMENTE HAY QUE EVALUAR CUÁNDO SI USARSE Y CUÁNDO NO, SI ES PARA CONSULTAS RELATIVAMENTE RÁPIDAS EN DONDE LUEGO EL USO DE ÍNDICES NISIQUIERA REPERCUTEN EN EL PERFORMANCE, LO MEJOR ES NO METER ÍNDICES Y ASÍ EVITAR UN GASTO INNECESARIO DE RECURSOS **
+
+La manera correcta de eliminar los índices es:
+
+DROP INDEX idx_orderdetails_aquantity;
+DROP INDEX idx_orders_orderdate

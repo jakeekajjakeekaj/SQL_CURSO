@@ -1,0 +1,58 @@
+ÍNDICES (INDEXES)
+
+Esto sirve para realizar consultas de manera más rápida.
+Un ejemplo es al momento de usar WHERE o JOIN.
+Existen tipos de índices:
+
+- ÍNDICE ÚNICO: Este sería el Primary Key. Es el único tipo de índice que no permite tener valores nulos.
+AL MOMENTO DE CREAR UN INDEX, AL DECLARARLO COMO UNIQUE ESTE PASA A SER ÚNICO. No permite campos duplicados.
+
+- ÍNDICE NO ÚNICO: Este se da cuando no es delcarado como UNIQUE. Permite campos duplicados.
+
+EJEMPLO DE ÍNDICE:
+Si nosotros tenemos:
+
+SELECT * FROM Products WHERE ProductName = "Chais"
+
+Pues básicamente se agrega que de la tabla Products se arrojará el resultado que cumpla con ProductName = "Chais", y esta acción tarda por ejemplo 5ms; sin embargo si es una consulta que usamos demasiado, nosotros podemos hacer:
+
+CREATE INDEX nombre ON Products (ProductName)
+
+De esta manera nosotros ya hemos creado un índice, en pocas palabras creamos un índice en ProductName, y si nosotros ejecutamos:
+
+SELECT * FROM Products WHERE ProductName = "Chais"
+
+Ahora el tiempo de respuesta en vez de ser de 5ms, es de 4ms; en este caso no se encuentra demasiada diferencia, pero para el caso en el que las consultas son demasiado largas, con los indexes nosotros podemos tener menor tiempo de respuesta.
+
+OTRO EJEMPLO:
+
+Si nosotros tenemos:
+
+CREATE INDEX name ON Employees (FirstName)
+
+Con esto nos arrojaría toda la información, incluyendo la información duplicada, sin embargo al tener:
+
+CREATE UNIQUE INDEX name ON Employees (FirstName)
+
+Con esto nos arrojaría la información con cada campo no duplicado.
+
+EJEMPLO ÍNDICE COMPUESTO:
+
+SI NOSOTROS QUEREMOS QUE UN NOMBRE COMPLETO NO SE REPITA, ES DECIR PUEDE HABER UN jake y un ekaj, pero no puede haber un jake ekaj; pues nosotros podemos validar esto a nivel backend, a nivel PK o podemos usar los índices, el cual sería declarado como:
+
+CREATE UNIQUE INDEX name ON Employees (FirstName, LastName)
+
+De esta manera ya hemos dejado a los 2 campos como unicos y así podemos dejar el primer nombre como jake, el apellido como ekaj, pero si queremos tener un jake ekaj, no nos dejaría ya que es un índice compuesto.
+
+En pocas palabras si tenemos índices no únicos, nos ayuda a tener consultas más rápidas, mientras que si tenemos índices únicos, es como tener PK, solo que en vez de revisar una fila como el PK normal, lo hace en forma de columna, ayudando a que un campo no tenga valores duplicados y aumentando la veocidad de consultas (NO HAY QUE OLVIDAR LA GRAN VENTAJA DE HACERLO COMPUESTO para evitar que se crucen combinaciones).
+
+SIN EMBARGO AHORA VIENEN LAS DESVENTAJAS DEL USO DE ÍNDICES:
+
+A este punto nos podemos cuestionar que tomando en cuenta las ventajas de usar índices, por qué no usarlos para todo?, bueno las respuesta es:
+- El espacio en disco.
+- Si se modifica una tabla, también se debe actualizar a los índices.
+- Mantenimiento, mientras más indices es más complejo mantenerla.
+
+Tomando en cuenta esto, solo debemos utlizar los índices en columnas que verdaderamente se necesiten, la manera de identificar a cuáles si se deben aplicar los índices es:
+- Aplicar a campos que se usen mucho para condiciones de búsqueda o filtrado, por ejemplo en el uso de WHERE o JOIN.
+- Si tienen alta carnalidad, es decir una cantidad de valores únicos alta.

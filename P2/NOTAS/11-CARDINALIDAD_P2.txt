@@ -1,0 +1,14 @@
+CARDINALIDAD
+
+Existen 4 tipos de relaciones o cardinalidades:
+
+- Uno a Uno (1 : 1): Un registro de una tabla se relaciona directamente con otro registro de otra tabla. Por ejemplo cada persona tiene un único documento y cada documento está enlazado a una persona.
+
+- Uno a Muchos (1 : n) y Muchos a Uno (n : 1): Un registro de una tabla, se relaciona con varias registros de otra tabla o viceversa. Por ejemplo cuando un autor puede escribir varios libros.
+
+- Muchos a Muchos (n : m): Esto ocurre cuando varios registros de una tabla se relacionan con varios registros de otra tabla. Por ejemplo cuando los alumnos se inscriben a varios cursos.
+Este al ser un poco complejo, se maneja de diferente manera, para este caso se crea una tabla intermedia para que así las relaciones sean de 1 : n y n : 1
+
+*** EN LA CARPETA DE IMG_NOTAS SE ENCUENTRA UN EJEMPLO DEL ANÁLISIS DE RELACIONES EN LA PROPIA DB NORTHWIND ***
+
+*** LA NOTACIÓN QUE SE VIÓ RECIÉN, SERÍA LA LLAMADA NOTACIÓN DE CHEN, SIN EMBARGO EXISTE OTRO TIPO DE NOTACIÓN LA CUAL ES LA NOTACIÓN DE MARTIN, EN LA CARPETA DE IMG_NOTAS SE ENCUENTRA UN EJEMPLO DE ESTA NOTACIÓN ***
