@@ -1,0 +1,3 @@
+UDF (USER DEFINED FUNCTIONS)
+
+Esta es una función para ejecutar una consulta, el requisito es que la función debe estar registrada, para este caso la función será almacenada desde el backend para ser ejecutada en SQLITE.

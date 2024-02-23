@@ -1,0 +1,9 @@
+PROCEDIMIENTOS ALMACENADOS (STORED PROCEDURES)
+
+Un procedimiento almacenado es un conjunto de instrucciones o comandos que se pueden guardar en la base de datos (como una especie de recetario)
+
+En cuestión de rendimiento incluso es muy bueno ya que las instrucciones osn ejecutadas en el servidor de la base de datos.
+
+Es importante mecnionar que SQLITE no soporta procedimientos almacenados. Pero lo que se hace es trabajarlo desde el propio backend, es decir desde Python por ejemplo.
+
+** A partir de ahora la siguiente parte trabajando con los PROCEDIMIENTOS ALMACENADOS utilizando SQLITE y Python, se verá en el P3 **

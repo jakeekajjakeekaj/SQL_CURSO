@@ -1,0 +1,29 @@
+BLOQUEOS Y TRANSACCIONES
+
+Los bloqueos son una especie de mecanismos que tienen las bases de datos, para poder manejar mejor los accesos concurrentes a la base de datos.
+Por ejemplo en un grupo de Wha, si 2 usuarios quieren modificar el nombre al mismo tiempo esto generaría un error, entonces gracias a los bloqueos este error se soluciona.
+Existen 3 tipos de bloqueos:
+
+- Bloqueo Compartido (Shared Block): En el que nadie puede escribir, pero puede leer. De esta manera cuando se ejecuta una operación, nadie más puede escribir pero si pueden leer la información. Este se ejecuta al estar leyendo la base de datos.
+
+- Bloqueos Reservados (Reserved Locks): Es un bloqueo que a diferencia del anterior no se aplica al leer la base de datos, se aplica al escribir en la base de datos.
+
+- Bloqueo Exclusivo (Exclusive Locks): Cuando se está escribiendo en una base de datos, pero no queremos que los usuarios puedan leer o escribir en la base de datos.
+
+Un ejemplo de su escritura es:
+
+-- El begin es para inisicar la transacción, se puede dejar como BEGIN, o se puede dejar como BEGIN TRANSACTION
+BEGIN;
+
+UPDATE Products SET ProductName = "hola" WHERE ProductName = "Chais";
+
+-- COMMIT se encarga de asentar el cambio
+COMMIT
+
+De esta manera nosotros podemos modificar el campo señalado
+
+Lo inverso a COMMIT seria
+
+ROLLBACK
+
+En pocas palabras cuando aplicamos una transacción, es como si estuvieramos haciendo una consulta de prueba, si nosotros después escribimos COMMIT, significa que aplicaremos el cambio y que ya no hay vuelta atrás, sin embargo si nosotros nos llegamos a equivocar con algo, en vez de colocar COMMIT y perder nuestra Base de Datos, lo que debemos hacer es colocar ROLLBACK, de esta manera no perederemos nuestra base de datos y simplemente se deshicieron todos los cambios temporales.

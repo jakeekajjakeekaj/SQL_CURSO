@@ -1,0 +1,27 @@
+VISTAS (VIEWS)
+
+Las vistas no almacenan datos, es más como una referencia. La manera de ejecutar una VIEW es:
+
+CREATE VIEW Productos_simplificados AS
+
+SELECT ProductID, ProductName, Price FROM Products
+WHERE ProductID > 20
+ORDER BY ProductID DESC
+
+De esta manra hemos creado la VIEW, básicamente es como guardar la consulta, por ejemplo si nosotros escribimos después:
+
+SELECT * FROM Productos_simplificados
+
+Ya podemos tener acceso a la tabla y no hace falta escribir (
+    SELECT ProductID, ProductName, Price FROM Products
+    WHERE ProductID > 20
+    ORDER BY ProductID DESC
+)
+
+Si queremos eliminar una VIEW, lo que se debe hacer es:
+
+- DROP VIEW IF EXIST Productos_simplificados
+ó
+- DROP VIEW Productos_simplificados
+
+De esta manera nosotros eliminamos la vista, es importante mencionar que el if exist puede ir o no, la diferencia es que si no se coloca el if exist, si existe la primra vez se va a eliminar, pero la segunda vez arrojará un error ya que ya no existe, en cambio si se coloca el IF EXIST ya no se arrojará el error, el problema es que en cuestión de rendimiento puede empeorarlo, ya que primero verifica si existe o no para después tomar acción, sin embargo la diferencia es mínima, aunque si es para tomar en consideración de cuando hacerlo y cuándo no.
