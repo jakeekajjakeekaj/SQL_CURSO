@@ -1,0 +1,24 @@
+sqlite es una gestor e base de datos bastante diferente a todos los demás; es decir mientras que los demás tienen ciertas similitudes, sqlite actúa más como parte de una aplicación en vez de como algo entero.
+
+- SQLITE es una base de datos con motor ligero y de archivo único, no utiliza un proceso de servidor dedicado, es ideal para apps que son incrustadas y de prototipos; ***NO ES INDICADA PARA APLICACIONES DE GRAN ESCALA O ALTO RENDIMIENTO***
+
+- MYSQL es un gestor de base de datos basado en servidor, lo que tiene es que mientras que sqlite solo soporta un solo conjunto de sql, mientras que mysql coporta varios; ES IDEAL PARA APLICACIONES DE GRAN ESCALA.
+
+- POSTGRESS es una gestor de base de datos basado en servidor, soporta conjuntos completos con caracteristicas de sql, tiene sus propias extensiones y ES IDEAL PARA APLICACIONES WEB, PROYS EMPRESARIALES Y ESCALABLES
+
+- SQLSERVER basado en servidor, es de Microsoft, es de pago, soporta un conjunto completo de características SQL, y también incluye extensiones propias, IDEAL PARA APLICACIONES DE GRAN ESCALA
+
+EN CADA GESTOR EXISTEN DIFERENCIAS RESPECTO AL CÓDIGO:
+- CREAR TABLAS: En todos es de la misma forma, solo que en mysql tenemos que agregar el motor de almacenamiento.
+- PRIMARY KEYS: En mysqlite es con AUTOINCREMENT, en mysql es con AUTO_INCREMENT, postgress utiliza SERIAL, y con sqlserver es con IDENTITY
+- JOIN: El JOIN es igual, el LEFT JOIN es igual, el RIGHT JOIN cambia, este sería: en sqlite tenemos que usar el LEFT JOIN pero invirtiendo el nombre de las tablas, en todos los demás si funciona el RIGHT JOIN.
+- FULL OUTER JOIN: sqlserver y postgress funciona igual, en sqlite se debe hacer un LEFT JOIN después un UNION y después un LEFT JOIN con la otra consulta pero invirtiendo el nombre de las tablas, en mysql es lo mismo que con sqlite, solo que en el final, en vez de usar LEFT JOIN, se usar el RIGHT JOIN y ya no se invierte el nombre de las tablas.
+- FUNCIONES DE AGREGACIÓN (MIN, MAX, AVG, COUNT, SUM): Son iguales, son las más comunes y son iguales.
+- HAVING: Es igual
+- GROUP BY: Es igual
+- INDICES: Es igual
+- TRANSACCIONES: Es igual
+- NOW (Devuelve fecha Año, Mes, Dia, Hora, Minutos, Segundos, Milisegundos): En sqlserver es SELECT GETDATE(), Mientras que en todas las demás es SELECT NOW()
+- FUNCIONES MATEMÁTICAS: ROUND (FUNCIONA IGUAL), CEIL (Redondea hacia arriba, en sqlite y postgress es CEIL(numero), mysql y sqlserver es CEILING(numero)), FLOOR (Redondea hacia abajo), ROUND (Redondea hacia el más cercano, es decir <5 redondea hacia abajo, >4 redondea hacia arriba), LIMIT (Limita la cantidad de resultado, en sql server es TOP numero después del SELECT y antes de seleccionar qué cosa, mientras que en todos los demás es LIMIT numero después de FROM tabla), OFFSET (Indica la cantidad a saltarse, es decir a partir de qué registro se empieza a contar, se pueden usar el LIMIT y el OFFSET al mismo tiempo, en todos menos sql server funciona igual, es decir LIMIT cantidad OFFSET inicio, pero en sql server funciona diferente (ver código en web debido a que es una serie de código más larga))
+- COMPARACIÓN: Es igual
+- COMODINES: Es igual
